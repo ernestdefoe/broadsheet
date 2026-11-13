@@ -31,11 +31,7 @@ app.initializers.add(
     extend(IndexPage.prototype, 'contentItems', function (this: any, items) {
       if (!isFront(this)) return;
 
-      items.add(
-        'broadsheetRest',
-        <h2 className="Broadsheet-rubric Broadsheet-rest">{t('rest_of_paper')}</h2>,
-        110
-      );
+      items.add('broadsheetRest', <h2 className="Broadsheet-rubric Broadsheet-rest">{t('rest_of_paper')}</h2>, 110);
     });
 
     header();

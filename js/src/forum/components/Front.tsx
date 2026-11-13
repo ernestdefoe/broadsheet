@@ -1,6 +1,7 @@
 import app from 'flarum/forum/app';
 import Component from 'flarum/common/Component';
 import Link from 'flarum/common/components/Link';
+import extractText from 'flarum/common/utils/extractText';
 import humanTime from 'flarum/common/helpers/humanTime';
 import type Mithril from 'mithril';
 import { getFront, loadFront, Person, Story } from '../front';
@@ -66,7 +67,7 @@ export default class Front extends Component {
     if (!front || (!front.lead && !front.columns.length)) return null;
 
     return (
-      <section className="Broadsheet-front" aria-label={t('front_page') as string}>
+      <section className="Broadsheet-front" aria-label={extractText(t('front_page'))}>
         <div className="Broadsheet-top">
           {front.lead ? this.lead(front.lead) : null}
           {front.mostDiscussed.length ? this.most(front.mostDiscussed) : null}

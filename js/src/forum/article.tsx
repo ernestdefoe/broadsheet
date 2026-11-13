@@ -42,7 +42,15 @@ export default function article() {
           </Link>
         ) : null}
         <div className="Broadsheet-byline">
-          {t('by', { name: user ? <Link href={app.route.user(user)}><b>{username(user)}</b></Link> : <b>{t('deleted_user')}</b> })}
+          {t('by', {
+            name: user ? (
+              <Link href={app.route.user(user)}>
+                <b>{username(user)}</b>
+              </Link>
+            ) : (
+              <b>{t('deleted_user')}</b>
+            ),
+          })}
           <br />
           {created ? humanTime(created) : null}
           {minutes ? [' · ', t('read_time', { count: minutes })] : null}
