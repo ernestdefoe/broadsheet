@@ -33,22 +33,32 @@ html:not(#bs) .DiscussionHero--colored {
   }
 }
 
+// The section label and the badges (sticky, locked) share the top line;
+// the headline and the byline each take a line of their own.
 html:not(#bs) .DiscussionHero-items {
   display: flex;
-  flex-direction: column;
-  gap: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 12px;
 
   > li {
     display: block;
+    flex: 1 1 100%;
+    min-width: 0;
   }
 
   .item-tags {
     order: -2;
+    flex: 0 1 auto;
   }
 
   .item-badges {
     order: -1;
-    margin-bottom: 4px;
+    flex: 0 0 auto;
+
+    .badges {
+      margin: 0;
+    }
   }
 }
 

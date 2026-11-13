@@ -116,3 +116,19 @@
   text-transform: none;
   color: var(--bs-muted);
 }
+
+// Flarum's "coloured header" option paints the header in the primary colour
+// with light text. A newspaper's header is printed on the page, so the
+// header stays paper and its text, icons and buttons stay ink: otherwise
+// they keep core's light "on colour" shade, pale grey on paper.
+html[data-colored-header='true'][data-theme] {
+  --header-bg: var(--bs-paper);
+  --header-color: var(--bs-ink);
+  --header-control-bg: var(--control-bg);
+  --header-control-color: var(--control-color);
+  --header-colored-color: var(--bs-ink);
+  --header-colored-control-color: var(--control-color);
+  --header-colored-control-bg: var(--control-bg);
+  --header-colored-control-bg-shaded: var(--control-bg-shaded);
+  --header-colored-control-bg-fadedin: var(--control-bg);
+}
