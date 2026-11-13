@@ -8,6 +8,16 @@ A newspaper front-page theme for Flarum 2, for news and writing communities.
 - **Discussions that read like articles** — a headline and byline, a drop cap, quotes pulled out between rules, and replies under "Letters in reply".
 - **A Night edition** — Flarum's dark mode, set in ink and newsprint.
 
+![The front page](screenshots/front-page.png)
+
+![The Night edition](screenshots/front-page-night.png)
+
+![A discussion, set as an article](screenshots/article.png)
+
+| Phone | Phone, Night edition | A discussion on a phone |
+| --- | --- | --- |
+| ![](screenshots/front-page-phone.png) | ![](screenshots/front-page-phone-night.png) | ![](screenshots/article-phone.png) |
+
 Typeset in Newsreader and IBM Plex Sans Condensed, served from your own forum (no Google Fonts).
 
 ## Install
@@ -20,7 +30,9 @@ Then enable **Broadsheet** in your admin panel. Settings: nameplate, tagline, th
 
 ## Works with
 
-Tags, Sticky, Likes, Mentions, fof/upload, Scribe and [Wardrobe](https://github.com/ernestdefoe/wardrobe) (members choose their theme). Widgets placed with fof/forum-widgets-core show around the front page.
+Tags, Sticky, Likes, Mentions, fof/upload, Scribe and [Wardrobe](https://github.com/ernestdefoe/wardrobe) (members choose their theme). Widgets placed with fof/forum-widgets-core show in all five of its areas around the front page (Homecoming, Latest Replies and Testimonials below).
+
+![Widgets around the front page](screenshots/widgets.png)
 
 ## Licence
 
