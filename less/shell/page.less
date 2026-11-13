@@ -8,6 +8,14 @@ html:not(#bs) body {
   background: var(--bs-paper);
 }
 
+// 🚨 Core's .Page-content is a flex child with min-width: auto, so it grows
+// to the widest thing inside it: one extension's wide card (Story Chain's,
+// on dev) pushed the whole page 170px past the window. It takes the space
+// that is left, and its content wraps inside it.
+.Page-container > .Page-content {
+  min-width: 0;
+}
+
 // Core's index sidebar keeps its job (start a discussion, the list's
 // filters, every extension's nav items and widget areas), set like the
 // paper's index column: condensed caps, no buttons-as-pills.
