@@ -14,3 +14,14 @@
 .BroadsheetAdmin-child {
   padding-left: 20px;
 }
+
+// A long choice ("The most-liked discussion from the last 30 days") would
+// otherwise push the select past the edge of a phone.
+.ernestdefoe-broadsheet-Page .Select {
+  max-width: 100%;
+
+  .Select-input {
+    max-width: 100%;
+    text-overflow: ellipsis;
+  }
+}

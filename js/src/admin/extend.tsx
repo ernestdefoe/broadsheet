@@ -1,6 +1,5 @@
 import app from 'flarum/admin/app';
 import Admin from 'flarum/common/extenders/Admin';
-import Checkbox from 'flarum/common/components/Checkbox';
 
 /**
  * Broadsheet's settings page.
@@ -134,9 +133,15 @@ export default [
 
                 return (
                   <li key={'t' + id} className={tag.parent() ? 'BroadsheetAdmin-child' : ''}>
-                    <Checkbox state={on} disabled={!on && chosen.length >= 12} onchange={(value: boolean) => toggle(id, value)}>
+                    <label className="checkbox">
+                      <input
+                        type="checkbox"
+                        checked={on}
+                        disabled={!on && chosen.length >= 12}
+                        onchange={(e: Event) => toggle(id, (e.target as HTMLInputElement).checked)}
+                      />
                       {tag.name()}
-                    </Checkbox>
+                    </label>
                   </li>
                 );
               })}
