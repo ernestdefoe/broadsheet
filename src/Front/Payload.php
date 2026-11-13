@@ -75,7 +75,15 @@ final class Payload
         $columns = $this->columns($candidates);
 
         $shown = new Collection(array_values(array_filter([$lead, ...$columns, ...$most->all()])));
-        $shown->load(['firstPost', 'user', 'lastPostedUser']);
+        // 🚨 The opening posts through the actor's own post visibility, so a
+        // post another extension restricts (approval, a spoiler gate, a
+        // private reply) never lends its words to the front page: an
+        // allow-list, not a list of the cases Broadsheet knows about.
+        $shown->load([
+            'firstPost' => fn ($query) => $query->whereVisibleTo($actor),
+            'user',
+            'lastPostedUser',
+        ]);
         $read = $this->lastRead($actor, $shown);
 
         $present = fn (Discussion $d, bool $picture = false) => $this->story->present($d, $read[$d->id] ?? 0, $picture);

@@ -63,6 +63,24 @@ class FrontTest extends BroadsheetTestCase
     }
 
     #[Test]
+    public function an_opening_post_the_actor_may_not_see_lends_no_words(): void
+    {
+        // flarum/approval-style: a post marked unapproved is hidden from
+        // everyone but its author and moderators by a visibility scope, not
+        // by hidden_at, so only an allow-list catches it.
+        \Flarum\Post\Post::registerVisibilityScoper(function ($actor, $query) {
+            $query->where('posts.id', '!=', 2);
+        }, 'view');
+
+        [, $front] = $this->get('/api/broadsheet/front');
+
+        $story = collect([$front['lead'], ...$front['columns'], ...$front['mostDiscussed']])->firstWhere('id', 2);
+        $this->assertNotNull($story);
+        $this->assertSame('', $story['excerpt']);
+        $this->assertStringNotContainsString('On rowing', json_encode($front));
+    }
+
+    #[Test]
     public function the_columns_come_from_different_sections(): void
     {
         [, $front] = $this->get('/api/broadsheet/front');
