@@ -25,6 +25,11 @@ html:not(#bs) .DiscussionHero--colored {
   background: none;
   color: var(--bs-ink);
   text-align: left;
+  // A forum's own CSS for another theme's hero (a card with a border and a
+  // shadow, on dev) must not box the headline in.
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
 
   .container {
     max-width: calc(var(--discussion-content-max-width) + 300px);
