@@ -171,27 +171,19 @@ html:not(#bs) .DiscussionHero-title {
     line-height: 1.62;
     color: var(--bs-ink-2);
 
-    // The first paragraph of prose: a picture's own paragraph is skipped.
-    // 🚨 initial-letter where the browser has it, a float only where it
-    // doesn't: an earlier float in the post (Favorite Team's badge spacers
-    // on the showcase) holds a floated letter below itself, and the "S" of
-    // "Settling" sat alone under the first line.
-    > p:not(:has(img, iframe, video)):not(p:not(:has(img, iframe, video)) ~ p)::first-letter {
+    // The first paragraph of prose, when nothing but pictures comes before
+    // it. 🚨 Not after anything another extension put first (Favorite
+    // Team's floated badge spacers, on the showcase): a later float cannot
+    // sit higher than an earlier one, so the letter dropped below them, and
+    // initial-letter overlapped the second line instead. Such a post simply
+    // has no drop cap.
+    > p:not(:has(img, iframe, video)):not(p:not(:has(img, iframe, video)) ~ p):not(:not(p) ~ p)::first-letter {
       float: left;
       font-size: 4.1em;
       line-height: 0.8;
       font-weight: 700;
       padding: 0.1em 0.12em 0 0;
       color: var(--bs-ink);
-
-      @supports (initial-letter: 3) or (-webkit-initial-letter: 3) {
-        float: none;
-        font-size: inherit;
-        line-height: inherit;
-        padding: 0 0.12em 0 0;
-        -webkit-initial-letter: 3;
-        initial-letter: 3;
-      }
     }
 
     // A quote in the article is pulled out between rules, as on the page
