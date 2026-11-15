@@ -48,7 +48,14 @@
                 "name": "fas fa-newspaper",
                 "backgroundColor": "#F6F3EC",
                 "color": "#161513"
-            }
+            },
+            "optional-dependencies": [
+                "flarum/tags",
+                "flarum/sticky",
+                "flarum/likes",
+                "fof/upload",
+                "fof/forum-widgets-core"
+            ]
         }
     },
     "support": {
