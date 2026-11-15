@@ -19,6 +19,13 @@ use Psr\Http\Server\RequestHandlerInterface;
 /**
  * GET /api/broadsheet/front — the lead, the columns and the most discussed.
  *
+ * A custom handler rather than an Extend\ApiResource on purpose: there is no
+ * model behind it to list, create or update. It returns one computed
+ * payload, picked by rules across many discussions (the admin's lead
+ * source, one story per section, replies this week), and read-only. Every
+ * story passes the reader's own visibility (Front\Payload), so it shows
+ * nothing the discussion list would not.
+ *
  * Asked for when a reader navigates to the front page inside the app. A full
  * page load gets the same data preloaded into the document instead (see
  * Content\Front), so the first paint never waits on it.

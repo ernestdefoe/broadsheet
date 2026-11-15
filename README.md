@@ -34,6 +34,10 @@ Tags, Sticky, Likes, Mentions, fof/upload, Scribe and [Wardrobe](https://github.
 
 ![Widgets around the front page](screenshots/widgets.png)
 
+## API
+
+Broadsheet adds one read-only endpoint, `GET /api/broadsheet/front`. It returns the front page as one computed payload: the lead story, the three columns and the week's most discussed, each with its title, excerpt, section, author and reply count. It is a custom handler rather than a JSON:API resource because there is no model behind it to list, create or update; the stories are picked by rules across many discussions. Every story passes the reader's own visibility (restricted tags, private and hidden discussions, and opening posts the reader may not see are left out), and a forum that guests cannot view returns 403 to a guest. A full page load of the front page receives the same payload in the page, so it never waits on this request.
+
 ## Licence
 
 MIT. Fonts: SIL Open Font License (see `assets/fonts`).

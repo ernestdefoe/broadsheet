@@ -20,6 +20,18 @@ interface Attrs {
  * block that pushes the news down the page.
  */
 export default class SectionNav extends Component<Attrs> {
+  /**
+   * Opens the composer, as the sidebar's Start a discussion does. Core
+   * rejects with no reason only when it showed a guest the log-in modal
+   * instead: the visitor has been told, so that case alone is settled here
+   * and any real failure is rethrown.
+   */
+  write() {
+    return IndexSidebar.prototype.newDiscussionAction.call({}).catch((error: unknown) => {
+      if (error !== undefined) throw error;
+    });
+  }
+
   view() {
     const current = this.attrs.current;
     // A child tag lights up its parent's section.
@@ -50,10 +62,7 @@ export default class SectionNav extends Component<Attrs> {
             </li>
           ))}
         </ul>
-        <Button
-          className="Button Button--primary Broadsheet-write"
-          onclick={() => IndexSidebar.prototype.newDiscussionAction.call({}).catch(() => {})}
-        >
+        <Button className="Button Button--primary Broadsheet-write" onclick={() => this.write()}>
           {app.translator.trans('ernestdefoe-broadsheet.forum.write')}
         </Button>
       </nav>

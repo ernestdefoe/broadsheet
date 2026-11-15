@@ -58,7 +58,9 @@ export default class Front extends Component {
   oninit(vnode: Mithril.Vnode) {
     super.oninit(vnode);
 
-    loadFront().catch(() => {});
+    // A failed request has already shown Flarum's own error alert (app.request
+    // does that); the front page then stays empty and the list below it works.
+    loadFront().catch((error) => console.error('Broadsheet: the front page could not load', error));
   }
 
   view() {

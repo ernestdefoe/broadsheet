@@ -72,6 +72,14 @@ return [
 
     new Extend\Locales(__DIR__.'/locale'),
 
+    /*
+     * One read-only route, custom on purpose: it returns ONE computed
+     * front-page payload (the lead, three columns and the week's most
+     * discussed, picked by rules across many discussions), not a model to
+     * list, create or update, so it has no JSON:API resource shape. Every
+     * story in it is filtered through the reader's own visibility, and the
+     * same payload is preloaded into the page by Content\Front.
+     */
     (new Extend\Routes('api'))
         ->get('/broadsheet/front', 'broadsheet.front', Api\FrontController::class),
 

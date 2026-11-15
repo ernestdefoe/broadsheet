@@ -13,6 +13,7 @@ use Flarum\Discussion\Discussion;
 use Flarum\Http\SlugManager;
 use Flarum\Post\CommentPost;
 use Flarum\User\User;
+use Psr\Log\LoggerInterface;
 use s9e\TextFormatter\Utils;
 
 /**
@@ -28,7 +29,7 @@ final class Story
 
     private const EXCERPT = 160;
 
-    public function __construct(protected SlugManager $slugs)
+    public function __construct(protected SlugManager $slugs, protected LoggerInterface $logger)
     {
     }
 
@@ -51,7 +52,7 @@ final class Story
             // (the last post once it is all read; the first for a guest).
             'near' => min((int) $discussion->last_post_number, $lastRead + 1),
             'title' => $discussion->title,
-            'excerpt' => $this->excerpt($xml, $lead ? self::LEAD_EXCERPT : self::EXCERPT),
+            'excerpt' => $this->excerpt($xml, $lead ? self::LEAD_EXCERPT : self::EXCERPT, (int) $discussion->id),
             'image' => $lead ? $this->image($xml) : null,
             'author' => $this->user($discussion->user),
             'replies' => $replies,
@@ -91,7 +92,7 @@ final class Story
         ] : null;
     }
 
-    protected function excerpt(string $xml, int $length): string
+    protected function excerpt(string $xml, int $length, int $discussionId): string
     {
         if ($xml === '') {
             return '';
@@ -107,9 +108,12 @@ final class Story
 
         try {
             $text = Utils::removeFormatting($xml);
-        } catch (\Throwable) {
+        } catch (\Throwable $e) {
             // Stored XML that does not parse (an import, a hand edit) costs
-            // the story its excerpt, never the front page.
+            // the story its excerpt, never the front page. Logged with the
+            // discussion, so the broken post can be found and re-saved.
+            $this->logger->notice("Broadsheet: the opening post of discussion $discussionId could not be read for an excerpt: ".$e->getMessage(), ['exception' => $e]);
+
             return '';
         }
 

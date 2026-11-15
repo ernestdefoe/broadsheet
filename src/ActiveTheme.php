@@ -13,6 +13,7 @@ use Flarum\Extension\ExtensionManager;
 use Flarum\Http\RequestUtil;
 use Illuminate\Contracts\Container\Container;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Is this visitor looking at Broadsheet?
@@ -39,7 +40,10 @@ final class ActiveTheme
      */
     private static ?\WeakMap $answers = null;
 
-    public function __construct(protected ExtensionManager $extensions, protected Container $container)
+    /** Logged once per PHP worker: a broken Wardrobe must not flood the log on every request. */
+    private static bool $logged = false;
+
+    public function __construct(protected ExtensionManager $extensions, protected Container $container, protected LoggerInterface $logger)
     {
     }
 
@@ -59,7 +63,15 @@ final class ActiveTheme
         try {
             $cookie = $request->getCookieParams()['wardrobe_theme'] ?? null;
             $chosen = $this->container->make(self::REGISTRY)->resolve(RequestUtil::getActor($request), is_string($cookie) ? $cookie : null);
-        } catch (\Throwable) {
+        } catch (\Throwable $e) {
+            // Wardrobe could not say which theme this visitor sees. Broadsheet
+            // then behaves as the forum's only theme (its fonts and preload
+            // are added), which is what the visitor saw before Wardrobe.
+            if (! self::$logged) {
+                self::$logged = true;
+                $this->logger->warning('Broadsheet: Wardrobe could not resolve the visitor\'s theme, so Broadsheet serves as the only theme: '.$e->getMessage(), ['exception' => $e]);
+            }
+
             return true;
         }
 
