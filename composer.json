@@ -28,7 +28,8 @@
         "flarum/sticky": "A sticky discussion as the lead story.",
         "flarum/likes": "The most-liked discussion as the lead story.",
         "fof/upload": "Images attached with fof/upload are used as the lead story's picture.",
-        "fof/forum-widgets-core": "Place widgets (Homecoming, Latest Replies, Testimonials and others) around the front page."
+        "fof/forum-widgets-core": "Place widgets (Homecoming, Latest Replies, Testimonials and others) around the front page.",
+        "ernestdefoe/wardrobe": "Offer Broadsheet beside other themes, chosen by each member and guest."
     },
     "autoload": {
         "psr-4": {
@@ -54,7 +55,8 @@
                 "flarum/sticky",
                 "flarum/likes",
                 "fof/upload",
-                "fof/forum-widgets-core"
+                "fof/forum-widgets-core",
+                "ernestdefoe/wardrobe"
             ]
         }
     },
