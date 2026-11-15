@@ -91,6 +91,12 @@ return [
         ->default('ernestdefoe-broadsheet.lead', 'newest')
         ->default('ernestdefoe-broadsheet.dateline', true)
         ->default('ernestdefoe-broadsheet.fonts', true)
+        // Empty means the forum's own: its title, its description, its
+        // primary tags and the ink red (see Settings and the nameplate).
+        ->default('ernestdefoe-broadsheet.nameplate', '')
+        ->default('ernestdefoe-broadsheet.tagline', '')
+        ->default('ernestdefoe-broadsheet.sections', '[]')
+        ->default('ernestdefoe-broadsheet.accent', '')
         // read by less/lib/tokens.less
         ->registerLessConfigVar('broadsheet-accent', 'ernestdefoe-broadsheet.accent', fn ($value) => Settings::hex($value) ?? Settings::DEFAULT_ACCENT)
         // read by the nameplate (empty: the forum title)

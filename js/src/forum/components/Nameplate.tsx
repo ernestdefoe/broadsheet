@@ -11,7 +11,7 @@ import Link from 'flarum/common/components/Link';
 export default class Nameplate extends Component {
   view() {
     const name = app.forum.attribute<string>('broadsheetNameplate') || app.forum.attribute<string>('title');
-    const tagline = app.forum.attribute<string>('broadsheetTagline') ?? app.forum.attribute<string>('description');
+    const tagline = app.forum.attribute<string>('broadsheetTagline') || app.forum.attribute<string>('description');
 
     return (
       <div className="Broadsheet-nameplate">
