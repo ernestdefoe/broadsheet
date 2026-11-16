@@ -1,5 +1,7 @@
 # Broadsheet
 
+[![Floxum code review](https://floxum.com/extension/ernestdefoe/broadsheet/badge/review)](https://floxum.com/extension/ernestdefoe/broadsheet#code-review)
+
 A newspaper front-page theme for Flarum 2, for news and writing communities.
 
 - **A nameplate** — your paper's name set large across the top, with a tagline and today's date.
