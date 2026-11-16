@@ -34,4 +34,24 @@ class PreloadTest extends BroadsheetTestCase
         $this->assertStringNotContainsString('"broadsheetFront"', $this->page('/all', ['page' => '2']));
         $this->assertStringNotContainsString('"broadsheetFront"', $this->page('/d/1'));
     }
+
+    #[Test]
+    public function the_fonts_are_preloaded_and_switched_on_by_default(): void
+    {
+        $page = $this->page('/');
+
+        $this->assertStringContainsString('data-broadsheet-fonts="on"', $page);
+        $this->assertStringContainsString('newsreader-latin-opsz-normal.woff2', $page);
+        $this->assertStringContainsString('<meta name="theme-color" content="#F6F3EC"', $page);
+    }
+
+    #[Test]
+    public function fonts_off_preloads_nothing(): void
+    {
+        $this->setting('ernestdefoe-broadsheet.fonts', '0');
+        $page = $this->page('/');
+
+        $this->assertStringContainsString('data-broadsheet-fonts="off"', $page);
+        $this->assertStringNotContainsString('newsreader-latin-opsz-normal.woff2', $page);
+    }
 }

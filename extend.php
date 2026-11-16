@@ -7,54 +7,19 @@
  * file that was distributed with this source code.
  */
 
-use ErnestDefoe\Broadsheet\ActiveTheme;
 use ErnestDefoe\Broadsheet\Api;
 use ErnestDefoe\Broadsheet\Content;
 use ErnestDefoe\Broadsheet\Settings;
 use Flarum\Extend;
-use Flarum\Frontend\Document;
-use Flarum\Http\RequestUtil;
-use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Filesystem\Factory as Filesystem;
-use Psr\Http\Message\ServerRequestInterface;
 
 return [
     (new Extend\Frontend('forum'))
         ->js(__DIR__.'/js/dist/forum.js')
         ->css(__DIR__.'/less/forum.less')
         ->content(Content\Front::class)
-        /*
-         * Stamped on <html> by the server, not set from JS after boot, so the
-         * first paint already has the right fonts.
-         *
-         * 🚨 CLOSURES, not strings: core calls any value is_callable() says
-         * yes to, and that is true of a string naming a PHP function.
-         */
-        ->content(function (Document $document, ServerRequestInterface $request) {
-            // A visitor Wardrobe is serving another theme gets none of this.
-            if (! resolve(ActiveTheme::class)->for($request)) {
-                return;
-            }
-
-            $fonts = (bool) resolve(SettingsRepositoryInterface::class)->get('ernestdefoe-broadsheet.fonts', true);
-            $document->extraAttributes['data-broadsheet-fonts'] = fn () => $fonts ? 'on' : 'off';
-
-            // Mobile browsers tint their own toolbar from theme-color, which
-            // core sets to the primary colour: a coloured strip glued to the
-            // top of a newsprint page. Paper by day, ink by night.
-            $scheme = (string) RequestUtil::getActor($request)->getPreference('colorScheme');
-            $document->meta['theme-color'] = str_starts_with($scheme, 'dark') ? '#14130F' : '#F6F3EC';
-
-            if ($fonts) {
-                // The two faces the nameplate and the section nav use above
-                // the fold. The rest load on demand, by unicode-range.
-                $assets = resolve(Filesystem::class)->disk('flarum-assets');
-
-                foreach (['newsreader-latin-opsz-normal', 'ibm-plex-sans-condensed-latin-500-normal'] as $face) {
-                    $document->head[] = '<link rel="preload" href="'.e($assets->url('extensions/ernestdefoe-broadsheet/fonts/'.$face.'.woff2')).'" as="font" type="font/woff2" crossorigin>';
-                }
-            }
-        }),
+        // The fonts switch, the font preloads and the browser toolbar colour.
+        ->content(Content\Fonts::class),
 
     /*
      * Where the fonts are, as an absolute URL baked into the stylesheet.

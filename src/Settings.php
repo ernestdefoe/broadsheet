@@ -39,7 +39,7 @@ final class Settings
     // compiled into the stylesheet as @broadsheet-accent
     public const ACCENT = self::PREFIX.'accent';
 
-    // read by the font preload in extend.php and the [data-broadsheet-fonts] rules
+    // read by Content\Fonts and the [data-broadsheet-fonts] rules
     public const FONTS = self::PREFIX.'fonts';
 
     public const LEADS = ['newest', 'sticky', 'liked'];
@@ -56,9 +56,14 @@ final class Settings
 
     public function lead(): string
     {
-        $lead = (string) $this->settings->get(self::LEAD, 'newest');
+        $lead = (string) $this->settings->get(self::LEAD);
 
         return in_array($lead, self::LEADS, true) ? $lead : 'newest';
+    }
+
+    public function fonts(): bool
+    {
+        return (bool) $this->settings->get(self::FONTS);
     }
 
     /**
