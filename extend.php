@@ -51,8 +51,9 @@ return [
     // 🚨 Setting keys are written out here, never read from Settings class
     // constants while extend.php loads: it runs on every request, and while
     // composer swaps Broadsheet's files during an update, autoloading its own
-    // classes at load time would fail the whole site. The static calls inside
-    // the closures below are fine: they run later, when a value is asked for.
+    // classes at load time would fail the whole site. Settings:: used inside
+    // the closures below (calls and constants) is fine: those run later, when
+    // a value is asked for, not while this file loads.
     // Keep the keys in step with Settings.
     (new Extend\Settings())
         ->default('ernestdefoe-broadsheet.lead', 'newest')
