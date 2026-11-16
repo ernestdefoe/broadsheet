@@ -48,10 +48,12 @@ return [
     (new Extend\Routes('api'))
         ->get('/broadsheet/front', 'broadsheet.front', Api\FrontController::class),
 
-    // 🚨 Setting keys are written out here, never read from Settings::
-    // constants: extend.php runs on every request, and while composer swaps
-    // Broadsheet's files during an update, autoloading its own classes at load
-    // time would fail the whole site. Keep them in step with Settings.
+    // 🚨 Setting keys are written out here, never read from Settings class
+    // constants while extend.php loads: it runs on every request, and while
+    // composer swaps Broadsheet's files during an update, autoloading its own
+    // classes at load time would fail the whole site. The static calls inside
+    // the closures below are fine: they run later, when a value is asked for.
+    // Keep the keys in step with Settings.
     (new Extend\Settings())
         ->default('ernestdefoe-broadsheet.lead', 'newest')
         ->default('ernestdefoe-broadsheet.dateline', true)
